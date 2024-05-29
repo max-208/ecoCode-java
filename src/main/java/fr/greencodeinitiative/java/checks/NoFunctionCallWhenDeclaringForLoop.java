@@ -81,7 +81,6 @@ public class NoFunctionCallWhenDeclaringForLoop extends IssuableSubscriptionVisi
         private boolean isIteratorMethod(MethodInvocationTree tree) {
             boolean isIterator = tree.methodSymbol().owner().type().isSubtypeOf("java.util.Iterator");
             String methodName = tree.methodSelect().lastToken().text();
-            System.out.println("methodName: " + methodName + " isIterator: " + isIterator);
             boolean isMethodNext = methodName.equals("next");
             boolean isMethodHasNext = methodName.equals("hasNext");
             return isIterator && (isMethodNext || isMethodHasNext);

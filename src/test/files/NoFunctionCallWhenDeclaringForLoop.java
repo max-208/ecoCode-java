@@ -80,21 +80,21 @@ class NoFunctionCallWhenDeclaringForLoop {
         List<String> joursSemaine = Arrays.asList("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
         
         String jour;
-        // iterator
+        // iterator is allowed
         for (Iterator<String> iterator = joursSemaine.iterator(); iterator.hasNext(); jour = iterator.next()) {
             System.out.println(jour);
         }
 
-        // subclass of iterator
+        // subclass of iterator is allowed
         for (ListIterator<String> iterator = joursSemaine.listIterator(); iterator.hasNext(); jour = iterator.next()) {
             System.out.println(jour);
         }
 
-        // iterator called in an indirect way
+        // iterator called in an indirect way is allowed
         for (OtherClassWithIterator otherClass = new OtherClassWithIterator(joursSemaine); otherClass.iterator.hasNext(); jour = otherClass.iterator.next()) {
             System.out.println(jour);
         }
-
+        // but using a method that returns an iterator causes an issue
         for (OtherClassWithIterator otherClass = new OtherClassWithIterator(joursSemaine); otherClass.getIterator().hasNext(); jour = otherClass.getIterator().next()) {  // Noncompliant {{Do not call a function when declaring a for-type loop}}
             System.out.println(jour);
         }
