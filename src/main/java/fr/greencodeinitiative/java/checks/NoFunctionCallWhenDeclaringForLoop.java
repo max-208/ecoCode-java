@@ -17,6 +17,7 @@
  */
 package fr.greencodeinitiative.java.checks;
 
+import java.nio.file.WatchEvent.Kind;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,15 +27,18 @@ import java.util.Map;
 
 import org.sonar.check.Rule;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
+import org.sonar.plugins.java.api.semantic.Type;
 import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
 import org.sonar.plugins.java.api.tree.ClassTree;
 import org.sonar.plugins.java.api.tree.CompilationUnitTree;
 import org.sonar.plugins.java.api.tree.ExpressionTree;
 import org.sonar.plugins.java.api.tree.ForStatementTree;
 import org.sonar.plugins.java.api.tree.IdentifierTree;
+import org.sonar.plugins.java.api.tree.MemberSelectExpressionTree;
 import org.sonar.plugins.java.api.tree.MethodInvocationTree;
 import org.sonar.plugins.java.api.tree.PackageDeclarationTree;
 import org.sonar.plugins.java.api.tree.Tree;
+import org.sonar.plugins.java.api.tree.TypeArguments;
 import org.sonarsource.analyzer.commons.annotations.DeprecatedRuleKey;
 
 @Rule(key = "EC69")
@@ -61,18 +65,26 @@ public class NoFunctionCallWhenDeclaringForLoop extends IssuableSubscriptionVisi
         // update
         // initaliser
         method.update().accept(invocationMethodVisitor);
-        method.initializer().accept(invocationMethodVisitor);
     }
 
     private class MethodInvocationInForStatementVisitor extends BaseTreeVisitor {
 
         @Override
         public void visitMethodInvocation(MethodInvocationTree tree) {
-            if (!lineAlreadyHasThisIssue(tree)) {
+            if (!lineAlreadyHasThisIssue(tree) && !isIteratorMethod(tree)) {
                 report(tree);
                 return;
             }
             super.visitMethodInvocation(tree);
+        }
+
+        private boolean isIteratorMethod(MethodInvocationTree tree) {
+            boolean isIterator = tree.methodSymbol().owner().type().isSubtypeOf("java.util.Iterator");
+            String methodName = tree.methodSelect().lastToken().text();
+            System.out.println("methodName: " + methodName + " isIterator: " + isIterator);
+            boolean isMethodNext = methodName.equals("next");
+            boolean isMethodHasNext = methodName.equals("hasNext");
+            return isIterator && (isMethodNext || isMethodHasNext);
         }
 
         private boolean lineAlreadyHasThisIssue(Tree tree) {
