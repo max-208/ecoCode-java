@@ -72,10 +72,10 @@ class NoFunctionCallWhenDeclaringForLoop {
 
     public void test7() {
         List<String> joursSemaine = Arrays.asList("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
-        Iterator<String> iterator = joursSemaine.iterator();
-
-        for (String jour : iterator.hasNext()) {
-            String jour = iterator.next();
+        
+        String jour;
+        for (Iterator<String> iterator = joursSemaine.iterator(); iterator.hasNext(); jour = iterator.next()) {
+            System.out.println(jour);
         }
     }
 
