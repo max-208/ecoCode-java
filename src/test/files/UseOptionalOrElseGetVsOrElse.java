@@ -1,5 +1,3 @@
-import java.util.Optional;
-
 /*
  * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
  * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
@@ -17,6 +15,9 @@ import java.util.Optional;
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+import java.util.Optional;
+
 class UseOptionalOrElseGetVsOrElse {
 
     private static Optional<String> variable = Optional.empty();
