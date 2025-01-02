@@ -23,10 +23,13 @@ import com.sonar.orchestrator.locator.FileLocation;
 import com.sonar.orchestrator.locator.Location;
 import com.sonar.orchestrator.locator.MavenLocation;
 import com.sonar.orchestrator.locator.URLLocation;
+import lombok.Builder;
+import lombok.Getter;
 import org.greencodeinitiative.creedengo.java.integration.tests.profile.ProfileBackup;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.sonarqube.ws.Common;
 import org.sonarqube.ws.Issues;
 import org.sonarqube.ws.Measures;
 import org.sonarqube.ws.client.HttpConnector;
@@ -44,34 +47,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.sonarqube.ws.Common.RuleType.CODE_SMELL;
 import static org.sonarqube.ws.Common.Severity.MINOR;
 
-class LaunchSonarqubeAndBuildProjectIT {
-	private static final System.Logger LOGGER = System.getLogger(LaunchSonarqubeAndBuildProjectIT.class.getName());
+abstract class LaunchSonarqubeAndBuildProject {
 
-	private static OrchestratorExtension orchestrator;
-	private static List<ProjectToAnalyze> analyzedProjects;
+	private static final System.Logger LOGGER = System.getLogger(LaunchSonarqubeAndBuildProject.class.getName());
 
-	private static void launchSonarqube() {
-		String orchestratorArtifactoryUrl = systemProperty("test-it.orchestrator.artifactory.url");
-		String sonarqubeVersion = systemProperty("test-it.sonarqube.version");
-		Optional<String> sonarqubePort = ofNullable(System.getProperty("test-it.sonarqube.port")).map(String::trim).filter(not(String::isEmpty));
-
-		OrchestratorExtensionBuilder orchestratorExtensionBuilder = OrchestratorExtension
-				.builderEnv()
-				.useDefaultAdminCredentialsForBuilds(true)
-				.setOrchestratorProperty("orchestrator.artifactory.url", orchestratorArtifactoryUrl)
-				.setSonarVersion(sonarqubeVersion)
-				.setServerProperty("sonar.forceAuthentication", "false")
-				.setServerProperty("sonar.web.javaOpts", "-Xmx1G");
-
-		sonarqubePort.ifPresent(s -> orchestratorExtensionBuilder.setServerProperty("sonar.web.port", s));
-
-		additionalPluginsToInstall().forEach(orchestratorExtensionBuilder::addPlugin);
-		additionalProfiles().forEach(orchestratorExtensionBuilder::restoreProfileAtStartup);
-
-		orchestrator = orchestratorExtensionBuilder.build();
-		orchestrator.start();
-		LOGGER.log(INFO, () -> MessageFormat.format("SonarQube server available on: {0}", orchestrator.getServer().getUrl()));
-	}
+	protected static OrchestratorExtension orchestrator;
+	protected static List<ProjectToAnalyze> analyzedProjects;
 
 	@BeforeAll
 	static void setup() {
@@ -106,55 +87,6 @@ class LaunchSonarqubeAndBuildProjectIT {
 		launchAnalysis();
 	}
 
-	private static void launchAnalysis() {
-		Server server = orchestrator.getServer();
-		Map<String, String> qualityProfileByLanguage = testProjectProfileByLanguage();
-
-		analyzedProjects = getProjectsToAnalyze();
-
-		analyzedProjects
-				.stream()
-				// - Prepare/create SonarQube project for the test project
-				.peek(projectToAnalyze -> projectToAnalyze.provisionProjectIntoServer(server))
-				// - Configure the test project
-				.peek(projectToAnalyze -> projectToAnalyze.associateProjectToQualityProfile(server, qualityProfileByLanguage))
-				.map(ProjectToAnalyze::createMavenBuild)
-				// - Run SonarQube Scanner on test project
-				.peek(p -> LOGGER.log(INFO, () -> MessageFormat.format("Running SonarQube Scanner on project: {0}", p.getPom())))
-				.forEach(orchestrator::executeBuild);
-	}
-
-	@Test
-	void test() {
-		String projectKey = analyzedProjects.get(0).projectKey;
-
-		Map<String, Measures.Measure> measures = getMeasures(projectKey);
-
-		assertThat(ofNullable(measures.get("code_smells")).map(Measures.Measure::getValue).map(Integer::parseInt).orElse(0))
-				.isGreaterThan(1);
-
-		List<Issues.Issue> projectIssues = issuesForComponent(projectKey);
-		assertThat(projectIssues).isNotEmpty();
-
-		List<Issues.Issue> issuesForArrayCopyCheck = issuesForFile(projectKey, "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForLoopIgnored.java");
-
-		assertThat(issuesForArrayCopyCheck)
-				.hasSize(1)
-				.first().satisfies(issue -> {
-					assertThat(issue.getRule()).isEqualTo("creedengo-java:GCI69");
-					assertThat(issue.getSeverity()).isEqualTo(MINOR);
-					assertThat(issue.getLine()).isEqualTo(18);
-					assertThat(issue.getTextRange().getStartLine()).isEqualTo(18);
-					assertThat(issue.getTextRange().getEndLine()).isEqualTo(18);
-					assertThat(issue.getTextRange().getStartOffset()).isEqualTo(15);
-					assertThat(issue.getTextRange().getEndOffset()).isEqualTo(27);
-					assertThat(issue.getMessage()).isEqualTo("Do not call a function when declaring a for-type loop");
-					assertThat(issue.getDebt()).isEqualTo("5min");
-					assertThat(issue.getEffort()).isEqualTo("5min");
-					assertThat(issue.getType()).isEqualTo(CODE_SMELL);
-				});
-	}
-
 	@AfterAll
 	static void tearDown() {
 		if ("true".equalsIgnoreCase(System.getProperty("test-it.sonarqube.keepRunning"))) {
@@ -178,6 +110,47 @@ class LaunchSonarqubeAndBuildProjectIT {
 		if (orchestrator != null) {
 			orchestrator.stop();
 		}
+	}
+
+	private static void launchSonarqube() {
+		String orchestratorArtifactoryUrl = systemProperty("test-it.orchestrator.artifactory.url");
+		String sonarqubeVersion = systemProperty("test-it.sonarqube.version");
+		Optional<String> sonarqubePort = ofNullable(System.getProperty("test-it.sonarqube.port")).map(String::trim).filter(not(String::isEmpty));
+
+		OrchestratorExtensionBuilder orchestratorExtensionBuilder = OrchestratorExtension
+				.builderEnv()
+				.useDefaultAdminCredentialsForBuilds(true)
+				.setOrchestratorProperty("orchestrator.artifactory.url", orchestratorArtifactoryUrl)
+				.setSonarVersion(sonarqubeVersion)
+				.setServerProperty("sonar.forceAuthentication", "false")
+				.setServerProperty("sonar.web.javaOpts", "-Xmx1G");
+
+		sonarqubePort.ifPresent(s -> orchestratorExtensionBuilder.setServerProperty("sonar.web.port", s));
+
+		additionalPluginsToInstall().forEach(orchestratorExtensionBuilder::addPlugin);
+		additionalProfiles().forEach(orchestratorExtensionBuilder::restoreProfileAtStartup);
+
+		orchestrator = orchestratorExtensionBuilder.build();
+		orchestrator.start();
+		LOGGER.log(INFO, () -> MessageFormat.format("SonarQube server available on: {0}", orchestrator.getServer().getUrl()));
+	}
+
+	private static void launchAnalysis() {
+		Server server = orchestrator.getServer();
+		Map<String, String> qualityProfileByLanguage = testProjectProfileByLanguage();
+
+		analyzedProjects = getProjectsToAnalyze();
+
+		analyzedProjects
+				.stream()
+				// - Prepare/create SonarQube project for the test project
+				.peek(projectToAnalyze -> projectToAnalyze.provisionProjectIntoServer(server))
+				// - Configure the test project
+				.peek(projectToAnalyze -> projectToAnalyze.associateProjectToQualityProfile(server, qualityProfileByLanguage))
+				.map(ProjectToAnalyze::createMavenBuild)
+				// - Run SonarQube Scanner on test project
+				.peek(p -> LOGGER.log(INFO, () -> MessageFormat.format("Running SonarQube Scanner on project: {0}", p.getPom())))
+				.forEach(orchestrator::executeBuild);
 	}
 
 	private static String systemProperty(String propertyName) {
@@ -231,10 +204,10 @@ class LaunchSonarqubeAndBuildProjectIT {
 
 	private static Set<Location> additionalPluginsToInstall() {
 		Set<Location> plugins = commaSeparatedValues(systemProperty("test-it.plugins"))
-				.map(LaunchSonarqubeAndBuildProjectIT::toPluginLocation)
+				.map(LaunchSonarqubeAndBuildProject::toPluginLocation)
 				.collect(Collectors.toSet());
 		commaSeparatedValues(System.getProperty("test-it.additional-plugins", ""))
-				.map(LaunchSonarqubeAndBuildProjectIT::toPluginLocation)
+				.map(LaunchSonarqubeAndBuildProject::toPluginLocation)
 				.forEach(plugins::add);
 		return plugins;
 	}
@@ -284,48 +257,18 @@ class LaunchSonarqubeAndBuildProjectIT {
 		);
 	}
 
-	private static class ProjectToAnalyze {
-		private final Path pom;
-		private final String projectKey;
-		private final String projectName;
-
-		private ProjectToAnalyze(URI pom, String projectKey, String projectName) {
-			this.pom = Path.of(pom);
-			assertThat(this.pom).isRegularFile();
-			this.projectKey = projectKey;
-			this.projectName = projectName;
-		}
-
-		public MavenBuild createMavenBuild() {
-			return MavenBuild.create(pom.toFile())
-			                 .setCleanPackageSonarGoals()
-			                 .setProperty("sonar.projectKey", projectKey)
-			                 .setProperty("sonar.projectName", projectName)
-			                 .setProperty("sonar.scm.disabled", "true");
-		}
-
-		private void provisionProjectIntoServer(Server server) {
-			server.provisionProject(projectKey, projectName);
-
-		}
-
-		private void associateProjectToQualityProfile(Server server, Map<String, String> qualityProfileByLanguage) {
-			qualityProfileByLanguage.forEach((language, profileName) -> server.associateProjectToQualityProfile(projectKey, language, profileName));
-		}
-	}
-
-	private static List<Issues.Issue> issuesForFile(String projectKey, String file) {
+	protected static List<Issues.Issue> issuesForFile(String projectKey, String file) {
 		return issuesForComponent(projectKey + ":" + file);
 	}
 
-	private static List<Issues.Issue> issuesForComponent(String componentKey) {
+	protected static List<Issues.Issue> issuesForComponent(String componentKey) {
 		return newWsClient(orchestrator)
 				.issues()
 				.search(new SearchRequest().setComponentKeys(Collections.singletonList(componentKey)))
 				.getIssuesList();
 	}
 
-	private static Map<String, Measures.Measure> getMeasures(String componentKey) {
+	protected static Map<String, Measures.Measure> getMeasures(String componentKey) {
 		List<String> metricKeys = List.of(
 				"alert_status",
 				"blocker_violations",
@@ -439,10 +382,71 @@ class LaunchSonarqubeAndBuildProjectIT {
 				.collect(Collectors.toMap(Measures.Measure::getMetric, Function.identity()));
 	}
 
-
-	private static WsClient newWsClient(Orchestrator orchestrator) {
+	protected static WsClient newWsClient(Orchestrator orchestrator) {
 		return WsClientFactories.getDefault().newClient(HttpConnector.newBuilder()
 		                                                             .url(orchestrator.getServer().getUrl())
 		                                                             .build());
 	}
+
+	@Getter
+	protected static class ProjectToAnalyze {
+		private final Path pom;
+		private final String projectKey;
+		private final String projectName;
+
+		private ProjectToAnalyze(URI pom, String projectKey, String projectName) {
+			this.pom = Path.of(pom);
+			assertThat(this.pom).isRegularFile();
+			this.projectKey = projectKey;
+			this.projectName = projectName;
+		}
+
+		public MavenBuild createMavenBuild() {
+			return MavenBuild.create(pom.toFile())
+					.setCleanPackageSonarGoals()
+					.setProperty("sonar.projectKey", projectKey)
+					.setProperty("sonar.projectName", projectName)
+					.setProperty("sonar.scm.disabled", "true");
+		}
+
+		private void provisionProjectIntoServer(Server server) {
+			server.provisionProject(projectKey, projectName);
+
+		}
+
+		private void associateProjectToQualityProfile(Server server, Map<String, String> qualityProfileByLanguage) {
+			qualityProfileByLanguage.forEach((language, profileName) -> server.associateProjectToQualityProfile(projectKey, language, profileName));
+		}
+	}
+
+	@Getter
+	@Builder
+	protected static class IssueDetails {
+		private String rule;
+		private String message;
+		private int line;
+		private int startLine;
+		private int endLine;
+		private int startOffset;
+		private int endOffset;
+		private Common.RuleType type;
+		private Common.Severity severity;
+		private String debt;
+		private String effort;
+	}
+
+	protected void verifyIssue(Issues.Issue issueToCheck, IssueDetails issueSource) {
+		assertThat(issueToCheck.getRule()).isEqualTo(issueSource.getRule());
+		assertThat(issueToCheck.getMessage()).isEqualTo(issueSource.getMessage());
+		assertThat(issueToCheck.getLine()).isEqualTo(issueSource.getLine());
+		assertThat(issueToCheck.getTextRange().getStartLine()).isEqualTo(issueSource.getStartLine());
+		assertThat(issueToCheck.getTextRange().getEndLine()).isEqualTo(issueSource.getEndLine());
+		assertThat(issueToCheck.getTextRange().getStartOffset()).isEqualTo(issueSource.getStartOffset());
+		assertThat(issueToCheck.getTextRange().getEndOffset()).isEqualTo(issueSource.getEndOffset());
+		assertThat(issueToCheck.getSeverity()).isEqualTo(issueSource.getSeverity());
+		assertThat(issueToCheck.getType()).isEqualTo(issueSource.getType());
+		assertThat(issueToCheck.getDebt()).isEqualTo(issueSource.getDebt());
+		assertThat(issueToCheck.getEffort()).isEqualTo(issueSource.getEffort());
+	}
+
 }
