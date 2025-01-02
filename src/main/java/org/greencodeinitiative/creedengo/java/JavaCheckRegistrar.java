@@ -1,6 +1,6 @@
 /*
- * ecoCode - Java language - Provides rules to reduce the environmental footprint of your Java programs
- * Copyright © 2023 Green Code Initiative (https://www.ecocode.io)
+ * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
+ * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,26 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.greencodeinitiative.java;
+package org.greencodeinitiative.creedengo.java;
 
 import java.util.Collections;
 import java.util.List;
 
-(??)import org.greencodeinitiative.creedengo.java.checks.ArrayCopyCheck;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidFullSQLRequest;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidGettingSizeCollectionInLoop;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidMultipleIfElseStatement;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidRegexPatternNotStatic;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidSQLRequestInLoop;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidSetConstantInBatchUpdate;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidSpringRepositoryCallInLoopOrStreamCheck;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidStatementForDMLQueries;
-(??)import org.greencodeinitiative.creedengo.java.checks.AvoidUsageOfStaticCollections;
-(??)import org.greencodeinitiative.creedengo.java.checks.FreeResourcesOfAutoCloseableInterface;
-(??)import org.greencodeinitiative.creedengo.java.checks.IncrementCheck;
-(??)import org.greencodeinitiative.creedengo.java.checks.InitializeBufferWithAppropriateSize;
-(??)import org.greencodeinitiative.creedengo.java.checks.NoFunctionCallWhenDeclaringForLoop;
-(??)import org.greencodeinitiative.creedengo.java.checks.OptimizeReadFileExceptions;
+import org.greencodeinitiative.creedengo.java.checks.*;
 import org.sonar.plugins.java.api.CheckRegistrar;
 import org.sonar.plugins.java.api.JavaCheck;
 import org.sonarsource.api.sonarlint.SonarLintSide;
@@ -47,7 +33,7 @@ import org.sonarsource.api.sonarlint.SonarLintSide;
  */
 @SonarLintSide
 public class JavaCheckRegistrar implements CheckRegistrar {
-    private static final List<Class<? extends JavaCheck>> ANNOTATED_RULE_CLASSES = List.of(
+    static final List<Class<? extends JavaCheck>> ANNOTATED_RULE_CLASSES = List.of(
             ArrayCopyCheck.class,
             IncrementCheck.class,
             AvoidUsageOfStaticCollections.class,
