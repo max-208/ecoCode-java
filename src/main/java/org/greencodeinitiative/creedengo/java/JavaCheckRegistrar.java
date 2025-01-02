@@ -20,21 +20,7 @@ package org.greencodeinitiative.creedengo.java;
 import java.util.Collections;
 import java.util.List;
 
-import org.greencodeinitiative.creedengo.java.checks.ArrayCopyCheck;
-import org.greencodeinitiative.creedengo.java.checks.AvoidFullSQLRequest;
-import org.greencodeinitiative.creedengo.java.checks.AvoidGettingSizeCollectionInLoop;
-import org.greencodeinitiative.creedengo.java.checks.AvoidMultipleIfElseStatement;
-import org.greencodeinitiative.creedengo.java.checks.AvoidRegexPatternNotStatic;
-import org.greencodeinitiative.creedengo.java.checks.AvoidSQLRequestInLoop;
-import org.greencodeinitiative.creedengo.java.checks.AvoidSetConstantInBatchUpdate;
-import org.greencodeinitiative.creedengo.java.checks.AvoidSpringRepositoryCallInLoopOrStreamCheck;
-import org.greencodeinitiative.creedengo.java.checks.AvoidStatementForDMLQueries;
-import org.greencodeinitiative.creedengo.java.checks.AvoidUsageOfStaticCollections;
-import org.greencodeinitiative.creedengo.java.checks.FreeResourcesOfAutoCloseableInterface;
-import org.greencodeinitiative.creedengo.java.checks.IncrementCheck;
-import org.greencodeinitiative.creedengo.java.checks.InitializeBufferWithAppropriateSize;
-import org.greencodeinitiative.creedengo.java.checks.NoFunctionCallWhenDeclaringForLoop;
-import org.greencodeinitiative.creedengo.java.checks.OptimizeReadFileExceptions;
+import org.greencodeinitiative.creedengo.java.checks.*;
 import org.sonar.plugins.java.api.CheckRegistrar;
 import org.sonar.plugins.java.api.JavaCheck;
 import org.sonarsource.api.sonarlint.SonarLintSide;
@@ -62,7 +48,8 @@ public class JavaCheckRegistrar implements CheckRegistrar {
             InitializeBufferWithAppropriateSize.class,
             AvoidSetConstantInBatchUpdate.class,
             FreeResourcesOfAutoCloseableInterface.class,
-            AvoidMultipleIfElseStatement.class
+            AvoidMultipleIfElseStatement.class,
+            UseOptionalOrElseGetVsOrElse.class
     );
 
     /**

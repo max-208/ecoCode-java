@@ -38,10 +38,12 @@ class JavaCheckRegistrarTest {
                 .describedAs("All implemented rules must be registered into " + JavaCheckRegistrar.class)
                 .containsExactlyInAnyOrder(getDefinedRules().toArray(new Class[0]));
         assertThat(context.testCheckClasses()).isEmpty();
+
     }
 
     static Set<Class<?>> getDefinedRules() {
         Reflections r = new Reflections(JavaCheckRegistrar.class.getPackageName() + ".checks");
         return r.getTypesAnnotatedWith(Rule.class);
     }
+
 }
