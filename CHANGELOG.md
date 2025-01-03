@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - [#88](https://github.com/green-code-initiative/creedengo-java/pull/88) Add new Java rule GCI94 - Use orElseGet instead of orElse
-- [#88](https://github.com/green-code-initiative/creedengo-java/pull/88) Add new Java rule GCI82 - Make non reassigned variables constants
+- [#89](https://github.com/green-code-initiative/creedengo-java/pull/89) Add new Java rule GCI82 - Make non reassigned variables constants
 
 ### Changed
 

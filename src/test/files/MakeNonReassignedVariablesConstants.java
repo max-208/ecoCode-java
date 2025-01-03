@@ -1,6 +1,6 @@
 import java.util.logging.Logger;
 
-public class GCI82MakeNonReassignedVariablesConstants {
+public class MakeNonReassignedVariablesConstants {
 
     private final Logger logger = Logger.getLogger(""); // Compliant
 
@@ -14,7 +14,7 @@ public class GCI82MakeNonReassignedVariablesConstants {
     private String varDefinedInClassReassigned = "0"; // Compliant
     private String varDefinedInConstructorReassigned = "1"; // Compliant
 
-    public GCI82MakeNonReassignedVariablesConstants() {
+    public MakeNonReassignedVariablesConstants() {
         varDefinedInConstructorReassigned = "3";
         logger.info(varDefinedInConstructorReassigned);
     }
