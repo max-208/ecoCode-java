@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - upgrade some libraries versions
+- improve Integration Tests system to be more flexible (add new IT for each rule)
 
 ### Deleted
 
