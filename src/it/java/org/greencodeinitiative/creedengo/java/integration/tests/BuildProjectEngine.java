@@ -23,13 +23,10 @@ import com.sonar.orchestrator.locator.FileLocation;
 import com.sonar.orchestrator.locator.Location;
 import com.sonar.orchestrator.locator.MavenLocation;
 import com.sonar.orchestrator.locator.URLLocation;
-import lombok.Builder;
 import lombok.Getter;
 import org.greencodeinitiative.creedengo.java.integration.tests.profile.ProfileBackup;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.sonarqube.ws.Common;
 import org.sonarqube.ws.Issues;
 import org.sonarqube.ws.Measures;
 import org.sonarqube.ws.client.HttpConnector;
@@ -44,12 +41,10 @@ import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.sonarqube.ws.Common.RuleType.CODE_SMELL;
-import static org.sonarqube.ws.Common.Severity.MINOR;
 
-abstract class LaunchSonarqubeAndBuildProject {
+abstract class BuildProjectEngine {
 
-	private static final System.Logger LOGGER = System.getLogger(LaunchSonarqubeAndBuildProject.class.getName());
+	private static final System.Logger LOGGER = System.getLogger(BuildProjectEngine.class.getName());
 
 	protected static OrchestratorExtension orchestrator;
 	protected static List<ProjectToAnalyze> analyzedProjects;
@@ -204,10 +199,10 @@ abstract class LaunchSonarqubeAndBuildProject {
 
 	private static Set<Location> additionalPluginsToInstall() {
 		Set<Location> plugins = commaSeparatedValues(systemProperty("test-it.plugins"))
-				.map(LaunchSonarqubeAndBuildProject::toPluginLocation)
+				.map(BuildProjectEngine::toPluginLocation)
 				.collect(Collectors.toSet());
 		commaSeparatedValues(System.getProperty("test-it.additional-plugins", ""))
-				.map(LaunchSonarqubeAndBuildProject::toPluginLocation)
+				.map(BuildProjectEngine::toPluginLocation)
 				.forEach(plugins::add);
 		return plugins;
 	}
@@ -417,36 +412,6 @@ abstract class LaunchSonarqubeAndBuildProject {
 		private void associateProjectToQualityProfile(Server server, Map<String, String> qualityProfileByLanguage) {
 			qualityProfileByLanguage.forEach((language, profileName) -> server.associateProjectToQualityProfile(projectKey, language, profileName));
 		}
-	}
-
-	@Getter
-	@Builder
-	protected static class IssueDetails {
-		private String rule;
-		private String message;
-		private int line;
-		private int startLine;
-		private int endLine;
-		private int startOffset;
-		private int endOffset;
-		private Common.RuleType type;
-		private Common.Severity severity;
-		private String debt;
-		private String effort;
-	}
-
-	protected void verifyIssue(Issues.Issue issueToCheck, IssueDetails issueSource) {
-		assertThat(issueToCheck.getRule()).isEqualTo(issueSource.getRule());
-		assertThat(issueToCheck.getMessage()).isEqualTo(issueSource.getMessage());
-		assertThat(issueToCheck.getLine()).isEqualTo(issueSource.getLine());
-		assertThat(issueToCheck.getTextRange().getStartLine()).isEqualTo(issueSource.getStartLine());
-		assertThat(issueToCheck.getTextRange().getEndLine()).isEqualTo(issueSource.getEndLine());
-		assertThat(issueToCheck.getTextRange().getStartOffset()).isEqualTo(issueSource.getStartOffset());
-		assertThat(issueToCheck.getTextRange().getEndOffset()).isEqualTo(issueSource.getEndOffset());
-		assertThat(issueToCheck.getSeverity()).isEqualTo(issueSource.getSeverity());
-		assertThat(issueToCheck.getType()).isEqualTo(issueSource.getType());
-		assertThat(issueToCheck.getDebt()).isEqualTo(issueSource.getDebt());
-		assertThat(issueToCheck.getEffort()).isEqualTo(issueSource.getEffort());
 	}
 
 }

@@ -49,7 +49,8 @@ public class JavaCheckRegistrar implements CheckRegistrar {
             AvoidSetConstantInBatchUpdate.class,
             FreeResourcesOfAutoCloseableInterface.class,
             AvoidMultipleIfElseStatement.class,
-            UseOptionalOrElseGetVsOrElse.class
+            UseOptionalOrElseGetVsOrElse.class,
+            MakeNonReassignedVariablesConstants.class
     );
 
     /**

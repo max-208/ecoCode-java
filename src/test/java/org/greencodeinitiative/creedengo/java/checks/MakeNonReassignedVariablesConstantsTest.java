@@ -17,23 +17,17 @@
  */
 package org.greencodeinitiative.creedengo.java.checks;
 
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.sonar.java.checks.verifier.CheckVerifier;
 
-class GCI69AvoidGettingSizeCollectionInForLoopBad {
-    AvoidGettingSizeCollectionInForLoopBad() {
+class MakeNonReassignedVariablesConstantsTest {
 
+    @Test
+    void test() {
+        CheckVerifier.newVerifier()
+                .onFile("src/test/files/MakeNonReassignedVariablesConstants.java")
+                .withCheck(new MakeNonReassignedVariablesConstants())
+                .verifyIssues();
     }
 
-    public void badForLoop() {
-        final List<Integer> numberList = new ArrayList<Integer>();
-        numberList.add(10);
-        numberList.add(20);
-
-        final Iterator<Integer> it = numberList.iterator();
-        for (; it.hasNext(); ) { // Ignored => compliant
-            System.out.println(it.next());
-        }
-    }
 }
