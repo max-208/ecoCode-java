@@ -3,7 +3,6 @@ package org.greencodeinitiative.creedengo.java.checks;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Rule;
-import org.sonar.java.model.ModifiersUtils;
 import org.sonar.plugins.java.api.IssuableSubscriptionVisitor;
 import org.sonar.plugins.java.api.tree.*;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
@@ -78,7 +77,6 @@ public class MakeNonReassignedVariablesConstants extends IssuableSubscriptionVis
     }
 
     private static boolean isNotFinalAndNotStatic(VariableTree variableTree) {
-//        return ModifiersUtils.hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC);
         return hasNoneOf(variableTree.modifiers(), Modifier.FINAL, Modifier.STATIC);
     }
 
