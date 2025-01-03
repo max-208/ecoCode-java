@@ -10,14 +10,15 @@ class AvoidGettingSizeCollectionInForLoopIgnored {
     }
 
     public void badForLoop() {
-        List<Integer> numberList = new ArrayList<Integer>();
+        final List<Integer> numberList = new ArrayList<Integer>();
         numberList.add(10);
         numberList.add(20);
 
-        Iterator it = numberList.iterator();
+        final Iterator<Integer> it = numberList.iterator();
         for (; it.hasNext(); ) { // Ignored => compliant
-            it.next();
-            System.out.println("numberList.size()");
+            System.out.println(it.next());
         }
     }
+
+
 }
