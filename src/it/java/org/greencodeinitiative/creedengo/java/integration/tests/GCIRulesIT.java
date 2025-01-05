@@ -30,19 +30,45 @@ class GCIRulesIT extends BuildProjectEngine {
     }
 
     @Test
+    void testGCI3() {
+        String projectKey = analyzedProjects.get(0).getProjectKey();
+
+        List<Issues.Issue> issues = issuesForFile(projectKey,
+                "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForLoopBad.java");
+
+        assertThat(issues)
+                .hasSize(2)
+                .extracting("rule", "message", "line", "textRange.startLine", "textRange.endLine",
+                        "textRange.startOffset", "textRange.endOffset", "severity", "type", "debt", "effort")
+                .containsExactly(
+                        Tuple.tuple("creedengo-java:GCI3", "Avoid getting the size of the collection in the loop",
+                                13, 13, 13, 28, 45, MINOR, CODE_SMELL, "5min", "5min"),
+                        Tuple.tuple("creedengo-java:GCI69", "Do not call a function when declaring a for-type loop",
+                                13, 13, 13, 28, 45, MINOR, CODE_SMELL, "5min", "5min")
+                );
+
+    }
+
+    @Test
     void testGCI69() {
         String projectKey = analyzedProjects.get(0).getProjectKey();
 
         List<Issues.Issue> issues = issuesForFile(projectKey,
-                "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForLoopIgnored.java");
+                "src/main/java/org/greencodeinitiative/creedengo/java/checks/NoFunctionCallWhenDeclaringForLoop.java");
 
         assertThat(issues)
-            .hasSize(1)
+            .hasSize(4)
             .extracting("rule", "message", "line", "textRange.startLine", "textRange.endLine",
                     "textRange.startOffset", "textRange.endOffset", "severity", "type", "debt", "effort")
             .containsExactly(
                     Tuple.tuple("creedengo-java:GCI69", "Do not call a function when declaring a for-type loop",
-                            18, 18, 18, 15, 27, MINOR, CODE_SMELL, "5min", "5min")
+                            58, 58, 58, 28, 40, MINOR, CODE_SMELL, "5min", "5min"),
+                    Tuple.tuple("creedengo-java:GCI69", "Do not call a function when declaring a for-type loop",
+                            66, 66, 66, 34, 46, MINOR, CODE_SMELL, "5min", "5min"),
+                    Tuple.tuple("creedengo-java:GCI69", "Do not call a function when declaring a for-type loop",
+                            74, 74, 74, 39, 51, MINOR, CODE_SMELL, "5min", "5min"),
+                    Tuple.tuple("creedengo-java:GCI69", "Do not call a function when declaring a for-type loop",
+                            101, 101, 101, 108, 132, MINOR, CODE_SMELL, "5min", "5min")
             );
 
     }
