@@ -165,13 +165,13 @@
         <dependency>
             <groupId>org.sonarsource.orchestrator</groupId>
             <artifactId>sonar-orchestrator-junit5</artifactId>
-            <version>4.9.0.1920</version>
+            <version>5.1.0.2254</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.sonarsource.java</groupId>
             <artifactId>test-classpath-reader</artifactId>
-            <version>8.5.0.37199</version>
+            <version>8.8.0.37665</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -211,7 +211,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -261,7 +261,7 @@
                 <!-- plugin to generate a unique build number for sonar-packaging-maven-plugin : usage of buildNumber variable -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -279,7 +279,7 @@
                 <!-- shade plugin configuration is on parent pom.xml because of use for other modules -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -385,7 +385,7 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>4.1</version>
+                <version>4.6</version>
                 <configuration>
                     <properties>
                         <owner>Green Code Initiative</owner>
@@ -456,7 +456,7 @@
                 <!-- Execute integration tests -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>3.5.2</version>
                 <executions>
                     <execution>
                         <goals>
