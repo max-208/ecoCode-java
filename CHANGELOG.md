@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - improve Integration Tests system to be more flexible (add new IT for each rule)
 - [#21](https://github.com/green-code-initiative/creedengo-java/issues/21) Improvement: some method calls are legitimate in a for loop expression
 - check compatibility with SonarQube 10.7.0 and 24.12.0
+- upgrade actions/upload-artifact and actions/download-artifact from v3 to v4)
 
 ### Deleted
 
