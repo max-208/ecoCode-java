@@ -269,7 +269,7 @@ abstract class BuildProjectEngine {
 				"blocker_violations",
 				"branch_coverage",
 				"bugs",
-				"class_complexity",
+//				"class_complexity", // suppr en 25.1
 				"classes",
 				"code_smells",
 				"cognitive_complexity",
@@ -277,14 +277,14 @@ abstract class BuildProjectEngine {
 				"comment_lines_data",
 				"comment_lines_density",
 				"complexity",
-				"complexity_in_classes",
-				"complexity_in_functions",
+//				"complexity_in_classes", // suppr en 25.1
+//				"complexity_in_functions", // suppr en 25.1
 				"conditions_to_cover",
 				"confirmed_issues",
 				"coverage",
 				"critical_violations",
 				"development_cost",
-				"directories",
+//				"directories", // suppr en 10.2
 				"duplicated_blocks",
 				"duplicated_files",
 				"duplicated_lines",
@@ -293,11 +293,11 @@ abstract class BuildProjectEngine {
 				"effort_to_reach_maintainability_rating_a",
 				"executable_lines_data",
 				"false_positive_issues",
-				"file_complexity",
-				"file_complexity_distribution",
+//				"file_complexity", // suppr en 25.1
+//				"file_complexity_distribution", // suppr en 25.1
 				"files",
-				"function_complexity",
-				"function_complexity_distribution",
+//				"function_complexity", // suppr en 25.1
+//				"function_complexity_distribution", // suppr en 25.1
 				"functions",
 				"generated_lines",
 				"generated_ncloc",

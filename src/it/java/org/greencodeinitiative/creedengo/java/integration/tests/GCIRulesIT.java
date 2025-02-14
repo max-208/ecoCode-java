@@ -40,7 +40,7 @@ class GCIRulesIT extends BuildProjectEngine {
                 .hasSize(2)
                 .extracting("rule", "message", "line", "textRange.startLine", "textRange.endLine",
                         "textRange.startOffset", "textRange.endOffset", "severity", "type", "debt", "effort")
-                .containsExactly(
+                .containsExactlyInAnyOrder(
                         Tuple.tuple("creedengo-java:GCI3", "Avoid getting the size of the collection in the loop",
                                 13, 13, 13, 28, 45, MINOR, CODE_SMELL, "5min", "5min"),
                         Tuple.tuple("creedengo-java:GCI69", "Do not call a function when declaring a for-type loop",

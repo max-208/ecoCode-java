@@ -80,7 +80,21 @@
         <test-it.sonarqube.keepRunning>false</test-it.sonarqube.keepRunning>
 
         <!-- Version of `sonarqube` used by integration tests (you can override this value to perform matrix compatibility tests) -->
-        <test-it.sonarqube.version>${sonarqube.version}</test-it.sonarqube.version>
+<!--        <test-it.sonarqube.version>${sonarqube.version}</test-it.sonarqube.version>-->
+
+<!--        <test-it.sonarqube.version>9.9.8.100196</test-it.sonarqube.version>-->
+<!--        <test-it.sonarqube.version>10.1.0.73245</test-it.sonarqube.version>-->
+<!--        <test-it.sonarqube.version>10.1.0.73491</test-it.sonarqube.version>-->
+        <!-- avant : OK -->
+
+<!--        <test-it.sonarqube.version>10.2.0.77647</test-it.sonarqube.version>-->
+<!--        <test-it.sonarqube.version>10.7.0.96327</test-it.sonarqube.version>-->
+<!--        <test-it.sonarqube.version>24.12.0.100206</test-it.sonarqube.version>-->
+        <!-- avant : OK metric "directories" -->
+
+<!--        <test-it.sonarqube.version>25.1.0.102122</test-it.sonarqube.version>-->
+        <test-it.sonarqube.version>25.2.0.102705</test-it.sonarqube.version>
+        <!-- avant : OK autres metrics -->
 
         <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
         <test-it.sonarjava.version>${sonarjava.version}</test-it.sonarjava.version>
