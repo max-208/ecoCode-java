@@ -11,10 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+### Deleted
+
+## [2.1.1] - 2025-03-13
+
+### Changed
+
 - compatibility updates for SonarQube 25.1.0, 25.2.0 and 25.3.0 compatibility
 - upgrade creedengo-rules-specifications lib to 2.2.2
-
-### Deleted
 
 ## [2.1.0] - 2025-01-07
 
@@ -93,7 +97,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update ecocode-rules-specifications to 1.4.6
 
-[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.1.0...HEAD)
+[unreleased](https://github.com/green-code-initiative/creedengo-java/compare/2.1.1...HEAD)
+[2.1.1](https://github.com/green-code-initiative/creedengo-java/compare/2.1.0...2.1.1)
 [2.1.0](https://github.com/green-code-initiative/creedengo-java/compare/2.0.0...2.1.0)
 [2.0.0](https://github.com/green-code-initiative/creedengo-java/compare/1.6.2...2.0.0)
 [1.6.2](https://github.com/green-code-initiative/creedengo-java/compare/1.6.1...1.6.2)
