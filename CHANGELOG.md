@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- compatibility updates for SonarQube 25.1.0 and 25.2.0 compatibility
+- compatibility updates for SonarQube 25.1.0, 25.2.0 and 25.3.0 compatibility
 
 ### Deleted
 

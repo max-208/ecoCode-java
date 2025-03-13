@@ -93,7 +93,8 @@
         <!-- avant : OK metric "directories" -->
 
 <!--        <test-it.sonarqube.version>25.1.0.102122</test-it.sonarqube.version>-->
-        <test-it.sonarqube.version>25.2.0.102705</test-it.sonarqube.version>
+<!--        <test-it.sonarqube.version>25.2.0.102705</test-it.sonarqube.version>-->
+        <test-it.sonarqube.version>25.3.0.104237</test-it.sonarqube.version>
         <!-- avant : OK autres metrics -->
 
         <!-- Version of `sonar-java-plugin` used by integration tests (you can override this value to perform matrix compatibility tests) -->
