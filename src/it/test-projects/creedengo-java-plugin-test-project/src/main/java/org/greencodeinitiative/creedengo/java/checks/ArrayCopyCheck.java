@@ -484,6 +484,7 @@ class ArrayCopyCheck {
             dest[i] = transform(src[i]);
             i++;
         } while (i < len);
+
     }
 
     private boolean transform(boolean a) {

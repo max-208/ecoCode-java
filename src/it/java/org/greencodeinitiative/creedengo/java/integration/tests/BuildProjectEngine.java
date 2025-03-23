@@ -252,15 +252,33 @@ abstract class BuildProjectEngine {
 		);
 	}
 
-	protected static List<Issues.Issue> issuesForFile(String projectKey, String file) {
-		return issuesForComponent(projectKey + ":" + file);
+	protected static List<Issues.Issue> issuesForFile(String projectKey, String file, String ruleId) {
+		return issuesForComponent(projectKey + ":" + file, ruleId);
 	}
 
-	protected static List<Issues.Issue> issuesForComponent(String componentKey) {
-		return newWsClient(orchestrator)
+	protected static List<Issues.Issue> issuesForComponent(String componentKey, String ruleId) {
+
+		SearchRequest searchRequest = new SearchRequest()
+				.setComponentKeys(Collections.singletonList(componentKey))
+				.setPs("500"); // nb issues per page returned (default 100)
+
+		if (ruleId != null) {
+			searchRequest.setRules(Collections.singletonList(ruleId)); // only keep issues for this rule
+		}
+
+		Issues.SearchWsResponse resp = newWsClient(orchestrator)
 				.issues()
-				.search(new SearchRequest().setComponentKeys(Collections.singletonList(componentKey)))
-				.getIssuesList();
+				.search(searchRequest);
+
+//		System.out.println("--- NB ISSUES : " + resp.getIssuesCount());
+//		System.out.println("--- NB ISSUES_LIST : " + resp.getIssuesList().size());
+//		resp.getIssuesList().forEach(issue -> {
+////			if (issue.getRule().equals("creedengo-java:GCI27")) {
+//				System.out.println("--- Issue --- " + issue.getRule() + " / " + issue.getLine());
+////			}
+//		});
+
+		return resp.getIssuesList();
 	}
 
 	protected static Map<String, Measures.Measure> getMeasures(String componentKey) {
