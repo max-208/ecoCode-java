@@ -2,11 +2,11 @@ package org.greencodeinitiative.creedengo.java.checks;
 
 import java.util.regex.Pattern;
 
-public class ValidRegexPattern3 {
+public class AvoidRegexPatternNotStaticValid3 {
 
     private final Pattern pattern;
 
-    public ValidRegexPattern3() {
+    public AvoidRegexPatternNotStaticValid3() {
         pattern = Pattern.compile("foo"); // Compliant
     }
 

@@ -27,11 +27,13 @@ import lombok.Getter;
 import org.greencodeinitiative.creedengo.java.integration.tests.profile.ProfileBackup;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.sonarqube.ws.Components;
 import org.sonarqube.ws.Issues;
 import org.sonarqube.ws.Measures;
 import org.sonarqube.ws.client.HttpConnector;
 import org.sonarqube.ws.client.WsClient;
 import org.sonarqube.ws.client.WsClientFactories;
+import org.sonarqube.ws.client.components.ShowRequest;
 import org.sonarqube.ws.client.issues.SearchRequest;
 import org.sonarqube.ws.client.measures.ComponentRequest;
 
@@ -252,11 +254,11 @@ abstract class BuildProjectEngine {
 		);
 	}
 
-	protected static List<Issues.Issue> issuesForFile(String projectKey, String file, String ruleId) {
-		return issuesForComponent(projectKey + ":" + file, ruleId);
+	protected static Issues.SearchWsResponse searchIssuesForFile(String projectKey, String file, String ruleId) {
+		return searchIssuesForComponent(projectKey + ":" + file, ruleId);
 	}
 
-	protected static List<Issues.Issue> issuesForComponent(String componentKey, String ruleId) {
+	protected static Issues.SearchWsResponse searchIssuesForComponent(String componentKey, String ruleId) {
 
 		SearchRequest searchRequest = new SearchRequest()
 				.setComponentKeys(Collections.singletonList(componentKey))
@@ -266,19 +268,19 @@ abstract class BuildProjectEngine {
 			searchRequest.setRules(Collections.singletonList(ruleId)); // only keep issues for this rule
 		}
 
-		Issues.SearchWsResponse resp = newWsClient(orchestrator)
+		return newWsClient(orchestrator)
 				.issues()
 				.search(searchRequest);
+	}
 
-//		System.out.println("--- NB ISSUES : " + resp.getIssuesCount());
-//		System.out.println("--- NB ISSUES_LIST : " + resp.getIssuesList().size());
-//		resp.getIssuesList().forEach(issue -> {
-////			if (issue.getRule().equals("creedengo-java:GCI27")) {
-//				System.out.println("--- Issue --- " + issue.getRule() + " / " + issue.getLine());
-////			}
-//		});
+	protected static Components.ShowWsResponse showComponent(String componentKey) {
 
-		return resp.getIssuesList();
+		ShowRequest showRequest = new org.sonarqube.ws.client.components.ShowRequest()
+				.setComponent(componentKey);
+
+		return newWsClient(orchestrator)
+				.components()
+				.show(showRequest);
 	}
 
 	protected static Map<String, Measures.Measure> getMeasures(String componentKey) {

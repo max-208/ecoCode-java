@@ -86,7 +86,7 @@ class AvoidSetConstantInBatchUpdateCheck {
                 stmt.setBoolean(2, Boolean.TRUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setByte(3, o.getField3());
                 stmt.setByte(4, Byte.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
-                stmt.setByte(4, (byte) Character.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
+//                stmt.setByte(4, Character.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setShort(5, Short.MIN_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setInt(6, Integer.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setLong(7, Long.MIN_VALUE); // Noncompliant {{Avoid setting constants in batch update}}

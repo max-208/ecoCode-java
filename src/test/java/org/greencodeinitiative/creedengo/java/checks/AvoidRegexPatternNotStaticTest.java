@@ -34,9 +34,9 @@ class AvoidRegexPatternNotStaticTest {
     void testHasNoIssues() {
         CheckVerifier.newVerifier()
                 .onFiles(
-                        "src/test/files/ValidRegexPattern.java",
-                        "src/test/files/ValidRegexPattern2.java",
-                        "src/test/files/ValidRegexPattern3.java"
+                        "src/test/files/AvoidRegexPatternNotStaticValid1.java",
+                        "src/test/files/AvoidRegexPatternNotStaticValid2.java",
+                        "src/test/files/AvoidRegexPatternNotStaticValid3.java"
                 )
                 .withCheck(new AvoidRegexPatternNotStatic())
                 .verifyNoIssues();

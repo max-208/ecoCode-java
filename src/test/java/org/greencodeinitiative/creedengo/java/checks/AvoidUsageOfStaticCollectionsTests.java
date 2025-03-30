@@ -33,7 +33,7 @@ class AvoidUsageOfStaticCollectionsTests {
     @Test
     void testNoIssues() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/GoodUsageOfStaticCollections.java")
+                .onFile("src/test/files/AvoidUsageOfStaticCollectionsGoodWay.java")
                 .withCheck(new AvoidUsageOfStaticCollections())
                 .verifyNoIssues();
     }

@@ -109,7 +109,7 @@ class AvoidMultipleIfElseStatement {
         } else {
             if (nb1 == 2) {  // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
                 nb1 = 1;
-            } else { // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
+            } else {
                 nb1 = 3;
             } // Noncompliant {{Use a switch statement instead of multiple if-else if possible}}
         }

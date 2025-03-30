@@ -2,9 +2,9 @@ package org.greencodeinitiative.creedengo.java.checks;
 
 import java.util.regex.Pattern;
 
-public class ValidRegexPattern2 {
+public class AvoidRegexPatternNotStaticValid1 {
 
-    private final Pattern pattern = Pattern.compile("foo"); // Compliant
+    private static final Pattern pattern = Pattern.compile("foo"); // Compliant
 
     public boolean foo() {
         return pattern.matcher("foo").find();

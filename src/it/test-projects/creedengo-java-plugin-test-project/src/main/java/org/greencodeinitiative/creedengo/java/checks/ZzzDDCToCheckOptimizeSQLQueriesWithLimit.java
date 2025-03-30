@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-class OptimizeSQLQueriesWithLimit {
+class ZzzDDCToCheckOptimizeSQLQueriesWithLimit {
 
     public void literalSQLrequest() {
         dummyCall("SELECT user FROM myTable"); // Noncompliant {{Optimize Database SQL Queries (Clause LIMIT)}}

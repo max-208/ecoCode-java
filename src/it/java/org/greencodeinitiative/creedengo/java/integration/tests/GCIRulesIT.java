@@ -1,57 +1,16 @@
 package org.greencodeinitiative.creedengo.java.integration.tests;
 
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
-import org.sonarqube.ws.Common;
 import org.sonarqube.ws.Issues;
 import org.sonarqube.ws.Measures;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.sonarqube.ws.Common.RuleType.CODE_SMELL;
-import static org.sonarqube.ws.Common.Severity.MINOR;
 
-class GCIRulesIT extends BuildProjectEngine {
-
-    private static final String[] EXTRACT_FIELDS = new String[]{
-            "rule", "message",
-//            "line"
-            "textRange.startLine", "textRange.endLine",
-//            "textRange.startOffset", "textRange.endOffset",
-            "severity", "type",
-//            "debt",
-            "effort"
-    };
-    private static final Common.Severity SEVERITY = MINOR;
-    private static final Common.RuleType TYPE = CODE_SMELL;
-    private static final String EFFORT_1MIN = "1min";
-    private static final String EFFORT_5MIN = "5min";
-    private static final String EFFORT_20MIN = "20min";
-
-    private void checkIssuesForFile(String filePath, String ruleId, String ruleMsg, int[] startLines, int[] endLines) {
-        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_5MIN);
-    }
-
-    private void checkIssuesForFile(String filePath, String ruleId, String ruleMsg, int[] startLines, int[] endLines, Common.Severity severity, Common.RuleType type, String effort) {
-        String projectKey = analyzedProjects.get(0).getProjectKey();
-        List<Issues.Issue> issues = issuesForFile(projectKey, filePath, ruleId);
-
-        List<Tuple> expectedTuples = new ArrayList<>();
-        for (int i = 0; i < startLines.length; i++) {
-            expectedTuples.add(Tuple.tuple(ruleId, ruleMsg, startLines[i], endLines[i], severity, type, effort));
-        }
-
-        assertThat(issues)
-                .hasSizeGreaterThanOrEqualTo(startLines.length)
-//                .hasSize(lines.length)
-                .extracting(EXTRACT_FIELDS)
-                .containsAll(expectedTuples);
-//                .containsExactlyElementsOf(expectedTuples);
-    }
+class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testMeasuresAndIssues() {
@@ -62,7 +21,7 @@ class GCIRulesIT extends BuildProjectEngine {
         assertThat(ofNullable(measures.get("code_smells")).map(Measures.Measure::getValue).map(Integer::parseInt).orElse(0))
                 .isGreaterThan(1);
 
-        List<Issues.Issue> projectIssues = issuesForComponent(projectKey, null);
+        List<Issues.Issue> projectIssues = searchIssuesForComponent(projectKey, null).getIssuesList();
         assertThat(projectIssues).isNotEmpty();
 
     }
@@ -95,25 +54,96 @@ class GCIRulesIT extends BuildProjectEngine {
     }
 
     @Test
-    void testGCI3() {
+    void testGCI74() {
 
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidGettingSizeCollectionInForLoopBad.java";
-        int[] startLines = new int[]{13};
-        int[] endLines = new int[]{13};
-        String ruleId = "creedengo-java:GCI3";
-        String ruleMsg = "Avoid getting the size of the collection in the loop";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidFullSQLRequestCheck.java";
+        int[] startLines = new int[]{8, 12, 17, 23};
+        int[] endLines = new int[]{8, 12, 17, 23};
+        String ruleId = "creedengo-java:GCI74";
+        String ruleMsg = "Don't use the query SELECT * FROM";
 
-        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_20MIN);
 
     }
 
     @Test
-    void testGCI69() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/NoFunctionCallWhenDeclaringForLoop.java";
-        String ruleId = "creedengo-java:GCI69";
-        String ruleMsg = "Do not call a function when declaring a for-type loop";
-        int[] startLines = new int[]{58, 66, 74, 101};
-        int[] endLines = new int[]{58, 66, 74, 101};
+    void testGCI78() {
+
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidSetConstantInBatchUpdateCheck.java";
+        int[] startLines = new int[]{
+                34, 35, 36, 37, 38, 39,
+                40, 41, 42, 43, 44, 45,
+                46, 61, 63, 64, 65, 66,
+                67, 70, 86, 88, 90, 91,
+                92, 93, 94, 96, 114, 116,
+                117, 118, 119, 120, 121, 123
+        };
+        int[] endLines = new int[]{
+                34, 35, 36, 37, 38, 39,
+                40, 41, 42, 43, 44, 45,
+                46, 61, 63, 64, 65, 66,
+                67, 70, 86, 88, 90, 91,
+                92, 93, 94, 96, 114, 116,
+                117, 118, 119, 120, 121, 123
+        };
+        String ruleId = "creedengo-java:GCI78";
+        String ruleMsg = "Avoid setting constants in batch update";
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_15MIN);
+
+    }
+
+    @Test
+    void testGCI72() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidSQLRequestInLoopCheck.java";
+        String ruleId = "creedengo-java:GCI72";
+        String ruleMsg = "Avoid SQL request in loop";
+        int[] startLines = new int[]{57, 88, 119};
+        int[] endLines = new int[]{57, 88, 119};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
+
+    @Test
+    void testGCI5() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidStatementForDMLQueries.java";
+        String ruleId = "creedengo-java:GCI5";
+        String ruleMsg = "You must not use Statement for a DML query";
+        int[] startLines = new int[]{18};
+        int[] endLines = new int[]{18};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_10MIN);
+    }
+
+    @Test
+    void testGCI79() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/FreeResourcesOfAutoCloseableInterface.java";
+        String ruleId = "creedengo-java:GCI79";
+        String ruleMsg = "try-with-resources Statement needs to be implemented for any object that implements the AutoClosable interface.";
+        int[] startLines = new int[]{23};
+        int[] endLines = new int[]{36};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_15MIN);
+    }
+
+    @Test
+    void testGCI32() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/InitializeBufferWithAppropriateSize.java";
+        String ruleId = "creedengo-java:GCI32";
+        String ruleMsg = "Initialize StringBuilder or StringBuffer with appropriate size";
+        int[] startLines = new int[]{16, 24};
+        int[] endLines = new int[]{16, 24};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
+    void testGCI67() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/IncrementCheck.java";
+        String ruleId = "creedengo-java:GCI67";
+        String ruleMsg = "Use ++i instead of i++";
+        int[] startLines = new int[]{9, 19, 38};
+        int[] endLines = new int[]{9, 19, 38};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }
@@ -125,6 +155,17 @@ class GCIRulesIT extends BuildProjectEngine {
         String ruleMsg = "The variable is never reassigned and can be 'final'";
         int[] startLines = new int[]{7, 12, 13, 45};
         int[] endLines = new int[]{7, 12, 13, 45};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
+    }
+
+    @Test
+    void testGCI69() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/NoFunctionCallWhenDeclaringForLoop.java";
+        String ruleId = "creedengo-java:GCI69";
+        String ruleMsg = "Do not call a function when declaring a for-type loop";
+        int[] startLines = new int[]{58, 66, 74, 101};
+        int[] endLines = new int[]{58, 66, 74, 101};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines);
     }

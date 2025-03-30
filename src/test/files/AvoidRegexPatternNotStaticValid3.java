@@ -15,36 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.greencodeinitiative.creedengo.java.utils;
+package org.greencodeinitiative.creedengo.java.checks;
 
-public class GoodWayConcatenateStringsLoop {
+import java.util.regex.Pattern;
 
-    public String concatenateStrings(String[] strings) {
-        StringBuilder result = new StringBuilder();
+public class AvoidRegexPatternNotStaticValid3 {
 
-        for (String string : strings) {
-            result.append(string);
-        }
-        return result.toString();
+    private final Pattern pattern;
+
+    public AvoidRegexPatternNotStaticValid3() {
+        pattern = Pattern.compile("foo"); // Compliant
     }
 
-    public void testConcateOutOfLoop() {
-        String result = "";
-        result += "another";
+    public boolean foo() {
+        return pattern.matcher("foo").find();
     }
-
-    public void testConcateOutOfLoop2() {
-        String result = "";
-        result = result + "another";
-    }
-
-    public String changeValueStringInLoop() {
-        String result3 = "";
-
-        for (int i = 0; i < 1; ++i) {
-            result3 = "another";
-        }
-        return result3;
-    }
-
 }

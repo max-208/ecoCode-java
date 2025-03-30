@@ -44,7 +44,7 @@ import static org.sonar.plugins.java.api.tree.Tree.Kind.METHOD_INVOCATION;
 @DeprecatedRuleKey(repositoryKey = "greencodeinitiative-java", ruleKey = "S78")
 public class AvoidSetConstantInBatchUpdate extends IssuableSubscriptionVisitor {
 
-    protected static final String MESSAGERULE = "Avoid setting constants in batch update";
+    protected static final String MESSAGE_RULE = "Avoid setting constants in batch update";
     private final AvoidSetConstantInBatchUpdateVisitor visitorInFile = new AvoidSetConstantInBatchUpdateVisitor();
 
     @Override
@@ -71,14 +71,14 @@ public class AvoidSetConstantInBatchUpdate extends IssuableSubscriptionVisitor {
         @Override
         public void visitMethodInvocation(MethodInvocationTree tree) {
             if (setters.matches(tree) && isConstant(tree.arguments().get(1))) {
-                reportIssue(tree, MESSAGERULE);
+                reportIssue(tree, MESSAGE_RULE);
             } else {
                 super.visitMethodInvocation(tree);
             }
         }
     }
 
-    private static final boolean isConstant(Tree arg) {
+    private static boolean isConstant(Tree arg) {
 
         if (arg.is(METHOD_INVOCATION)) {
             MethodInvocationTree m = (MethodInvocationTree) arg;
