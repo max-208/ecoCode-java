@@ -548,4 +548,48 @@ class GCIRulesIT extends GCIRulesBase {
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }
 
+    @Test
+    void testGCI1044_1() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AttributeQueryNonCompliant.java";
+        String ruleId= "creedengo-java:GCI1044";
+        String ruleMsg = "Avoid querying SQL columns that are not used";
+        int[] startLines = new int[]{41};
+        int[] endLines = new int[]{41};
+    }
+
+    @Test
+    void testGCI1044_2() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/LitteralQueryNonCompliant.java";
+        String ruleId= "creedengo-java:GCI1044";
+        String ruleMsg = "Avoid querying SQL columns that are not used";
+        int[] startLines = new int[]{40};
+        int[] endLines = new int[]{40};
+    }
+
+    @Test
+    void testGCI1044_3() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/MultipleQueriesNonCompliant.java";
+        String ruleId= "creedengo-java:GCI1044";
+        String ruleMsg = "Avoid querying SQL columns that are not used";
+        int[] startLines = new int[]{45};
+        int[] endLines = new int[]{45};
+    }
+
+    @Test
+    void testGCI1044_4() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseColumnIdsAndNameAttributesNonCompliant.java";
+        String ruleId= "creedengo-java:GCI1044";
+        String ruleMsg = "Avoid querying SQL columns that are not used";
+        int[] startLines = new int[]{42};
+        int[] endLines = new int[]{42};
+    }
+
+    @Test
+    void testGCI1044_5() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseMethodNonCompliant.java";
+        String ruleId= "creedengo-java:GCI1044";
+        String ruleMsg = "Avoid querying SQL columns that are not used";
+        int[] startLines = new int[]{40};
+        int[] endLines = new int[]{40};
+    }
 }

@@ -42,7 +42,7 @@ import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.VariableTree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
-@Rule(key = "EC1044")
+@Rule(key = "GCI1044")
 public class UseEveryColumnQueried extends IssuableSubscriptionVisitor {
 
     protected static final String MESSAGERULE = "Avoid querying SQL columns that are not used";
