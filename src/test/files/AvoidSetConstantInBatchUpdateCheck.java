@@ -1,6 +1,6 @@
 /*
- * ecoCode - Java language - Provides rules to reduce the environmental footprint of your Java programs
- * Copyright © 2023 Green Code Initiative (https://www.ecocode.io)
+ * creedengo - Java language - Provides rules to reduce the environmental footprint of your Java programs
+ * Copyright © 2024 Green Code Initiative (https://green-code-initiative.org/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.greencodeinitiative.java.checks;
+package org.greencodeinitiative.creedengo.java.checks;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -102,7 +102,6 @@ class AvoidSetConstantInBatchUpdateCheck {
                 stmt.setBoolean(2, Boolean.TRUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setByte(3, o.getField3());
                 stmt.setByte(4, Byte.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
-                stmt.setByte(4, Character.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setShort(5, Short.MIN_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setInt(6, Integer.MAX_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
                 stmt.setLong(7, Long.MIN_VALUE); // Noncompliant {{Avoid setting constants in batch update}}
