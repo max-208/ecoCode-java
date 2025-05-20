@@ -62,4 +62,21 @@ public class DontCatchRuntimeExceptions {
         } catch (IOException e) {
         }
     }
+
+    // these exceptions are ok because they are IllegalArgumentExceptions, and can hardly be avoided
+
+    public void testCompliant2() {
+        try {
+            // some code that may throw an exception
+        } catch (IllegalArgumentException e) {
+        }
+    }
+
+    public void testCompliant3() {
+        try {
+            Integer.parseInt("abc");
+        } catch (NumberFormatException e) {
+        }
+    }
+    
 }

@@ -31,6 +31,7 @@ public class DontCatchRuntimeExceptions extends IssuableSubscriptionVisitor {
 
     protected static final String MESSAGERULE = "Don't catch RuntimeExceptions";
     protected static final String RUNTIME_EXCEPTION = "java.lang.RuntimeException";
+    protected static final String ILLEGAL_ARGUMENT_EXCEPTION = "java.lang.IllegalArgumentException";
 
     @Override
     public List<Kind> nodesToVisit() {
@@ -40,7 +41,8 @@ public class DontCatchRuntimeExceptions extends IssuableSubscriptionVisitor {
     @Override
     public void visitNode(Tree tree) {
         CatchTree catchTree = (CatchTree) tree;
-        if(catchTree.parameter().type().symbolType().isSubtypeOf(RUNTIME_EXCEPTION)){
+        if(catchTree.parameter().type().symbolType().isSubtypeOf(RUNTIME_EXCEPTION) &&
+                !catchTree.parameter().type().symbolType().isSubtypeOf(ILLEGAL_ARGUMENT_EXCEPTION)) {
             reportIssue(tree, MESSAGERULE);
         }
     }
