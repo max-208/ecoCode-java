@@ -548,4 +548,15 @@ class GCIRulesIT extends GCIRulesBase {
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }
 
+    @Test
+    void testGCI1166() {
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/DontCatchRuntimeExceptions.java";
+        String ruleId = "creedengo-java:GCI1166";
+        String ruleMsg = "Don't catch RuntimeExceptions";
+        int[] startLines = new int[]{27, 35, 43, 50};
+        int[] endLines = new int[]{27, 35, 43, 50};
+
+        checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
+    }
+
 }
