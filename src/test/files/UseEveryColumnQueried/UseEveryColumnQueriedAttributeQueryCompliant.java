@@ -24,17 +24,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * In this test case, columns are accesed by IDs and names, some of them being in final variables
+ * This is the nominal test case, where the SQL query is an attribute of the class.
  * All Fields are accessed, so no issue is raised
  */
-public class UseColumnIdsAndNameAttributesCompliant {
+public class UseEveryColumnQueriedAttributeQueryCompliant {
 
 	private static final String DB_URL = "jdbc:mysql://localhost/TEST";
 	private static final String USER = "guest";
 	private static final String PASS = "guest123";
 	private static final String QUERY = "SELECT id, first, last, age FROM Registration";
-	private static final String ID = "id";
-	private static final int AGE = 4;
 
 	public void callJdbc() {
 
@@ -43,9 +41,9 @@ public class UseColumnIdsAndNameAttributesCompliant {
 				ResultSet rs = stmt.executeQuery(QUERY);) {
 			while (rs.next()) {
 				// Display values
-				System.out.print("ID: " + rs.getInt(ID));
-				System.out.print(", Age: " + rs.getInt(AGE));
-				System.out.print(", First: " + rs.getString(2));
+				System.out.print("ID: " + rs.getInt("id"));
+				System.out.print(", Age: " + rs.getInt("age"));
+				System.out.print(", First: " + rs.getString("first"));
 				System.out.println(", Last: " + rs.getString("last"));
 			}
 		} catch (SQLException e) {

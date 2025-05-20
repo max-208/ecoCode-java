@@ -24,24 +24,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * This is the nominal test case, where the SQL query is an attribute of the class.
- * One field is not accesed, so an issue is raised
+ * In this test case, the query is a litteral string directly inserted in the method
+ * All Fields are accessed, so no issue is raised
  */
-public class AttributeQueryNonCompliant {
+public class UseEveryColumnQueriedLitteralQueryCompliant {
 
 	private static final String DB_URL = "jdbc:mysql://localhost/TEST";
 	private static final String USER = "guest";
 	private static final String PASS = "guest123";
-	private static final String QUERY = "SELECT id, first, last, age FROM Registration";
 
 	public void callJdbc() {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(QUERY);) { // Noncompliant {{Avoid querying SQL columns that are not used}}
+				ResultSet rs = stmt.executeQuery("SELECT id, first, last, age FROM Registration");) {
 			while (rs.next()) {
 				// Display values
 				System.out.print("ID: " + rs.getInt("id"));
+				System.out.print(", Age: " + rs.getInt("age"));
 				System.out.print(", First: " + rs.getString("first"));
 				System.out.println(", Last: " + rs.getString("last"));
 			}
@@ -50,4 +50,6 @@ public class AttributeQueryNonCompliant {
 		}
 
 	}
+	
+	
 }

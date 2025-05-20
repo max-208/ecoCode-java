@@ -24,33 +24,33 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * In this test case, the ResultSet is passed through a method
- * One field is not accesed, so an issue is raised
+ * In this test case, columns are accesed by IDs and names, some of them being in final variables
+ * All Fields are accessed, so no issue is raised
  */
-public class UseMethodNonCompliant {
+public class UseEveryColumnQueriedUseColumnIdsAndNameAttributesCompliant {
 
 	private static final String DB_URL = "jdbc:mysql://localhost/TEST";
 	private static final String USER = "guest";
 	private static final String PASS = "guest123";
-	
+	private static final String QUERY = "SELECT id, first, last, age FROM Registration";
+	private static final String ID = "id";
+	private static final int AGE = 4;
+
 	public void callJdbc() {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT id, first, last, age FROM Registration");) { // Noncompliant {{Avoid querying SQL columns that are not used}}
-			extractGet(rs);
+				ResultSet rs = stmt.executeQuery(QUERY);) {
+			while (rs.next()) {
+				// Display values
+				System.out.print("ID: " + rs.getInt(ID));
+				System.out.print(", Age: " + rs.getInt(AGE));
+				System.out.print(", First: " + rs.getString(2));
+				System.out.println(", Last: " + rs.getString("last"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-	}
-
-	private void extractGet(ResultSet rs) throws SQLException {
-		while (rs.next()) {
-			// Display values
-			System.out.print("ID: " + rs.getInt("id"));
-			System.out.print(", First: " + rs.getString("first"));
-			System.out.println(", Last: " + rs.getString("last"));
-		}
 	}
 }

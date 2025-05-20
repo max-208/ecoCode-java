@@ -123,9 +123,6 @@ public class UseEveryColumnQueried extends IssuableSubscriptionVisitor {
 
         // get the ResultSet object and check it's validity
         Symbol resultSet = getResultSetNode(methodInvocationTree);
-        if (resultSet == null) {
-            return;
-        }
         if(isResultSetInvalid(resultSet)){
             return;
         }
@@ -296,7 +293,7 @@ public class UseEveryColumnQueried extends IssuableSubscriptionVisitor {
      * - the ResultSet object being reassigned
      */
     private static boolean isResultSetInvalid(Symbol resultSet) {
-        return isObjectUsedInMethodParameters(resultSet)
+        return resultSet==null || isObjectUsedInMethodParameters(resultSet)
             || isObjectReassigned(resultSet);
     }
 

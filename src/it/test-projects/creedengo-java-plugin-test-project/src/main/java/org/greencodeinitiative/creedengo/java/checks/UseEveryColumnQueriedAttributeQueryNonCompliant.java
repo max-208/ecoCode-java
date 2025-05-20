@@ -24,42 +24,27 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * In this test case, multiple queries are done using the same Statement Object.
+ * This is the nominal test case, where the SQL query is an attribute of the class.
  * One field is not accesed, so an issue is raised
  */
-public class MultipleQueriesNonCompliant {
+public class UseEveryColumnQueriedAttributeQueryNonCompliant {
 
 	private static final String DB_URL = "jdbc:mysql://localhost/TEST";
 	private static final String USER = "guest";
 	private static final String PASS = "guest123";
-	private static final String QUERY = "SELECT id, first, last, age FROM Registration"; 
-	private static final String QUERY2 = "SELECT id, first, last, age FROM Registration2";
-	
-	
+	private static final String QUERY = "SELECT id, first, last, age FROM Registration";
+
 	public void callJdbc() {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement();
-				) {
-			
-			ResultSet rs = stmt.executeQuery(QUERY); // Noncompliant {{Avoid querying SQL columns that are not used}}
+				ResultSet rs = stmt.executeQuery(QUERY);) { // Noncompliant {{Avoid querying SQL columns that are not used}}
 			while (rs.next()) {
 				// Display values
 				System.out.print("ID: " + rs.getInt("id"));
 				System.out.print(", First: " + rs.getString("first"));
 				System.out.println(", Last: " + rs.getString("last"));
 			}
-			rs = stmt.executeQuery(QUERY2);
-			
-			while (rs.next()) {
-				// Display values
-				System.out.print("Age: " + rs.getInt("age"));
-				System.out.print("ID: " + rs.getInt("id"));
-				System.out.print(", First: " + rs.getString("first"));
-				System.out.println(", Last: " + rs.getString("last"));
-			}
-			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

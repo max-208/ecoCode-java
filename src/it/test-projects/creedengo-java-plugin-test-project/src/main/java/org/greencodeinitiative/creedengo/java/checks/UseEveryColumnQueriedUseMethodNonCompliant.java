@@ -27,7 +27,7 @@ import java.sql.Statement;
  * In this test case, the ResultSet is passed through a method
  * One field is not accesed, so an issue is raised
  */
-public class UseMethodNonCompliant {
+public class UseEveryColumnQueriedUseMethodNonCompliant {
 
 	private static final String DB_URL = "jdbc:mysql://localhost/TEST";
 	private static final String USER = "guest";

@@ -24,24 +24,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * This is the nominal test case, where the SQL query is an attribute of the class.
- * One field is not accesed, so an issue is raised
+ * In this test case, we use a "select * from" statement
+ * Since we can't know what columns exist, we can't know if all columns are being used, no issue is raised
+ * "select * from" is bad practice but is already covered by EC74
  */
-public class AttributeQueryNonCompliant {
+public class UseEveryColumnQueriedSelectStar {
 
 	private static final String DB_URL = "jdbc:mysql://localhost/TEST";
 	private static final String USER = "guest";
 	private static final String PASS = "guest123";
-	private static final String QUERY = "SELECT id, first, last, age FROM Registration";
+	private static final String QUERY = "SELECT * FROM Registration";
 
 	public void callJdbc() {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(QUERY);) { // Noncompliant {{Avoid querying SQL columns that are not used}}
+				ResultSet rs = stmt.executeQuery(QUERY);) {
 			while (rs.next()) {
 				// Display values
 				System.out.print("ID: " + rs.getInt("id"));
+				System.out.print(", Age: " + rs.getInt("age"));
 				System.out.print(", First: " + rs.getString("first"));
 				System.out.println(", Last: " + rs.getString("last"));
 			}

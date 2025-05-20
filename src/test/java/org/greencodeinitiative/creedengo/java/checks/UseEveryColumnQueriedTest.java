@@ -28,7 +28,7 @@ import org.sonar.java.checks.verifier.CheckVerifier;
 class UseEveryColumnQueriedTest {
 
     @Test
-    void testExtractSelectedSQLColumns(){
+    void UseEveryColumnQueriedTestExtractSelectedSQLColumns(){
         String query = "\"SELECT id AS registration_id,\tfirst, last as Final, AGE FROM Registration\"";
         List<String> columns = UseEveryColumnQueried.extractSelectedSQLColumns(query);
         assertEquals(4, columns.size());
@@ -39,92 +39,92 @@ class UseEveryColumnQueriedTest {
     }
 
     @Test
-    void testHasIssues1() {
+    void UseEveryColumnQueriedAttributeQueryNonCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/AttributeQueryNonCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedAttributeQueryNonCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyIssues();
     }
 
     @Test
-    void testHasIssues2() {
+    void UseEveryColumnQueriedLitteralQueryNonCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/LitteralQueryNonCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedLitteralQueryNonCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyIssues();
     }
 
     @Test
-    void testHasIssues3() {
+    void UseEveryColumnQueriedUseColumnIdsAndNameAttributesNonCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/UseColumnIdsAndNameAttributesNonCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedUseColumnIdsAndNameAttributesNonCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyIssues();
     }
 
     @Test
     @Disabled // case not handled (multiple queries with the same ResultSet object)
-    void testHasIssues4() {
+    void UseEveryColumnQueriedMultipleQueriesNonCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/MultipleQueriesNonCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedMultipleQueriesNonCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyIssues();
     }
 
     @Test
     @Disabled // case not handled (usage of a method)
-    void testHasIssues5() {
+    void UseEveryColumnQueriedUseMethodNonCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/UseMethodNonCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedUseMethodNonCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyIssues();
     }
 
 
     @Test
-    void testHasNoIssues1() {
+    void UseEveryColumnQueriedAttributeQueryCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/AttributeQueryCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedAttributeQueryCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyNoIssues();
     }
 
     @Test
-    void testHasNoIssues2() {
+    void UseEveryColumnQueriedLitteralQueryCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/LitteralQueryCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedLitteralQueryCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyNoIssues();
     }
 
     @Test
-    void testHasNoIssues3() {
+    void UseEveryColumnQueriedUseColumnIdsAndNameAttributesCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/UseColumnIdsAndNameAttributesCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedUseColumnIdsAndNameAttributesCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyNoIssues();
     }
 
     @Test
-    void testHasNoIssues4() {
+    void UseEveryColumnQueriedMultipleQueriesCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/MultipleQueriesCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedMultipleQueriesCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyNoIssues();
     }
 
     @Test
-    void testHasNoIssues5() {
+    void UseEveryColumnQueriedUseMethodCompliant() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/UseMethodCompliant.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedUseMethodCompliant.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyNoIssues();
     }
 
     @Test
-    void testHasNoIssues6() {
+    void UseEveryColumnQueriedSelectStar() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/SelectStar.java")
+                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedSelectStar.java")
                 .withCheck(new UseEveryColumnQueried())
                 .verifyNoIssues();
     }

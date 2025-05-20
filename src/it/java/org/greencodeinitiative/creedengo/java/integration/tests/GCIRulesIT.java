@@ -550,7 +550,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI1044_1() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AttributeQueryNonCompliant.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseEveryColumnQueriedAttributeQueryNonCompliant.java";
         String ruleId= "creedengo-java:GCI1044";
         String ruleMsg = "Avoid querying SQL columns that are not used";
         int[] startLines = new int[]{41};
@@ -559,7 +559,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI1044_2() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/LitteralQueryNonCompliant.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseEveryColumnQueriedLitteralQueryNonCompliant.java";
         String ruleId= "creedengo-java:GCI1044";
         String ruleMsg = "Avoid querying SQL columns that are not used";
         int[] startLines = new int[]{40};
@@ -568,7 +568,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI1044_3() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/MultipleQueriesNonCompliant.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseEveryColumnQueriedMultipleQueriesNonCompliant.java";
         String ruleId= "creedengo-java:GCI1044";
         String ruleMsg = "Avoid querying SQL columns that are not used";
         int[] startLines = new int[]{45};
@@ -577,7 +577,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI1044_4() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseColumnIdsAndNameAttributesNonCompliant.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseEveryColumnQueriedUseColumnIdsAndNameAttributesNonCompliant.java";
         String ruleId= "creedengo-java:GCI1044";
         String ruleMsg = "Avoid querying SQL columns that are not used";
         int[] startLines = new int[]{42};
@@ -586,7 +586,7 @@ class GCIRulesIT extends GCIRulesBase {
 
     @Test
     void testGCI1044_5() {
-        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseMethodNonCompliant.java";
+        String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/UseEveryColumnQueriedUseMethodNonCompliant.java";
         String ruleId= "creedengo-java:GCI1044";
         String ruleMsg = "Avoid querying SQL columns that are not used";
         int[] startLines = new int[]{40};
