@@ -133,8 +133,8 @@ class NoFunctionCallWhenDeclaringForLoop {
 }
 
 class OtherClassWrapper {
-    public final Iterator<String> iterator;
-    public final Enumeration<String> enumeration;
+    public Iterator<String> iterator = null;
+    public Enumeration<String> enumeration = null;
 
     public OtherClassWrapper(Iterator<String> iterator){
         this.iterator = iterator;
