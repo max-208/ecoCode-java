@@ -553,8 +553,8 @@ class GCIRulesIT extends GCIRulesBase {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
         String ruleId = "creedengo-java:GCI1166";
         String ruleMsg = "Avoid Runtime exceptions";
-        int[] startLines = new int[]{35, 43, 51, 58};
-        int[] endLines = new int[]{35, 43, 51, 58};
+        int[] startLines = new int[]{36, 44, 52, 59};
+        int[] endLines = new int[]{36, 44, 52, 59};
 
         checkIssuesForFile(filePath, ruleId, ruleMsg, startLines, endLines, SEVERITY, TYPE, EFFORT_1MIN);
     }

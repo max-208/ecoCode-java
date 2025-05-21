@@ -27,6 +27,7 @@ import java.lang.IndexOutOfBoundsException;
 import java.lang.NullPointerException;
 import java.lang.IllegalArgumentException;
 import java.lang.NumberFormatException;
+import java.lang.Integer;
 
 public class AvoidRuntimeExceptions {
     public void nominalRuntimeException() {
