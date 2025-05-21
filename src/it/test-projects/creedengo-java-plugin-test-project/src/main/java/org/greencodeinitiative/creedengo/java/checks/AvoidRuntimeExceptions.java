@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.runtime.RuntimeException;
+import java.lang.RuntimeException;
 import java.lang.ArithmeticException;
 import java.lang.IndexOutOfBoundsException;
 import java.lang.NullPointerException;
@@ -87,5 +87,5 @@ public class AvoidRuntimeExceptions {
         } catch (NumberFormatException e) {
         }
     }
-    
+
 }
