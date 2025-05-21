@@ -63,25 +63,6 @@ class UseEveryColumnQueriedTest {
     }
 
     @Test
-    @Disabled // case not handled (multiple queries with the same ResultSet object)
-    void UseEveryColumnQueriedMultipleQueriesNonCompliant() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedMultipleQueriesNonCompliant.java")
-                .withCheck(new UseEveryColumnQueried())
-                .verifyIssues();
-    }
-
-    @Test
-    @Disabled // case not handled (usage of a method)
-    void UseEveryColumnQueriedUseMethodNonCompliant() {
-        CheckVerifier.newVerifier()
-                .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedUseMethodNonCompliant.java")
-                .withCheck(new UseEveryColumnQueried())
-                .verifyIssues();
-    }
-
-
-    @Test
     void UseEveryColumnQueriedAttributeQueryCompliant() {
         CheckVerifier.newVerifier()
                 .onFile("src/test/files/UseEveryColumnQueried/UseEveryColumnQueriedAttributeQueryCompliant.java")
