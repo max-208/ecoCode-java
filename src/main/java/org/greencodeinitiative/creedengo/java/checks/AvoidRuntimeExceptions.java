@@ -43,7 +43,9 @@ public class AvoidRuntimeExceptions extends IssuableSubscriptionVisitor {
         CatchTree catchTree = (CatchTree) tree;
         if(catchTree.parameter().type().symbolType().isSubtypeOf(RUNTIME_EXCEPTION) &&
                 !catchTree.parameter().type().symbolType().isSubtypeOf(ILLEGAL_ARGUMENT_EXCEPTION)) {
-            reportIssue(tree, MESSAGERULE);
+            String Type = catchTree.parameter().type().symbolType().name();
+            String message = MESSAGERULE + " : " + Type;
+            reportIssue(tree, message);
         }
     }
 }

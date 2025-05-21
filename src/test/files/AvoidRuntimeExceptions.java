@@ -33,7 +33,7 @@ public class AvoidRuntimeExceptions {
     public void nominalRuntimeException() {
         try {
             // some code that may throw an exception
-        } catch (RuntimeException e) { // Noncompliant {{Avoid Runtime exceptions}}
+        } catch (RuntimeException e) { // Noncompliant {{Avoid Runtime exceptions : RuntimeException}}
         }
     }
 
@@ -41,7 +41,7 @@ public class AvoidRuntimeExceptions {
         int[] array = new int[10];
         try {
             array[10] = 0;
-        } catch (IndexOutOfBoundsException e) { // Noncompliant {{Avoid Runtime exceptions}}
+        } catch (IndexOutOfBoundsException e) { // Noncompliant {{Avoid Runtime exceptions : IndexOutOfBoundsException}}
         }
     }
 
@@ -49,14 +49,14 @@ public class AvoidRuntimeExceptions {
         Object obj = null;
         try {
             obj.toString();
-        } catch (NullPointerException e) { // Noncompliant {{Avoid Runtime exceptions}}
+        } catch (NullPointerException e) { // Noncompliant {{Avoid Runtime exceptions : NullPointerException}}
         }
     }
 
     public void nominalRuntimeExceptionDependant_3(){
         try {
             int result = 1 / 0;
-        } catch (ArithmeticException e) { // Noncompliant {{Avoid Runtime exceptions}}
+        } catch (ArithmeticException e) { // Noncompliant {{Avoid Runtime exceptions : ArithmeticException}}
         }
     }
 
