@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
-- GCI82 - remove false positives with reasignement using this.var
-- GCI82 - remove false positives with passing a variable to a function it can be reassinged in
+- [#103](https://github.com/green-code-initiative/creedengo-java/pull/103) GCI82 - remove false positives with reasignement using this.var
+- [#103](https://github.com/green-code-initiative/creedengo-java/pull/103) GCI82 - remove false positives with passing a variable to a function it can be reassinged in
 - compatibility updates for SonarQube 25.5.0
 - upgrade libraries versions
 - correction of technical problem with Integration tests (because of Maven format in technical answer to "sonar-orchestrator-junit5" library)
