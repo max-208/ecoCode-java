@@ -20,13 +20,13 @@ package org.greencodeinitiative.creedengo.java.checks;
 import org.junit.jupiter.api.Test;
 import org.sonar.java.checks.verifier.CheckVerifier;
 
-class DontCatchRuntimeExceptionsTest {
+class AvoidRuntimeExceptionsTest {
 
     @Test
     void test() {
         CheckVerifier.newVerifier()
-                .onFile("src/test/files/DontCatchRuntimeExceptions.java")
-                .withCheck(new DontCatchRuntimeExceptions())
+                .onFile("src/test/files/AvoidRuntimeExceptions.java")
+                .withCheck(new AvoidRuntimeExceptions())
                 .verifyIssues();
     }
 

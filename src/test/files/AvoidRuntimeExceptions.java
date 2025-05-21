@@ -19,41 +19,49 @@ package org.greencodeinitiative.creedengo.java.checks;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.runtime.RuntimeException;
+import java.lang.ArithmeticException;
+import java.lang.IndexOutOfBoundsException;
+import java.lang.NullPointerException;
+import java.lang.IllegalArgumentException;
+import java.lang.NumberFormatException;
 
-public class DontCatchRuntimeExceptions {
-    public void test1() {
+public class AvoidRuntimeExceptions {
+    public void nominalRuntimeException() {
         try {
             // some code that may throw an exception
-        } catch (RuntimeException e) { // Noncompliant {{Don't catch RuntimeExceptions}}
+        } catch (RuntimeException e) { // Noncompliant {{Avoid Runtime exceptions}}
         }
     }
 
-    public void test2() {
+    public void nominalRuntimeExceptionDependant() {
         int[] array = new int[10];
         try {
             array[10] = 0;
-        } catch (IndexOutOfBoundsException e) { // Noncompliant {{Don't catch RuntimeExceptions}}
+        } catch (IndexOutOfBoundsException e) { // Noncompliant {{Avoid Runtime exceptions}}
         }
     }
 
-    public void test3(){
+    public void nominalRuntimeExceptionDependant_2(){
         Object obj = null;
         try {
             obj.toString();
-        } catch (NullPointerException e) { // Noncompliant {{Don't catch RuntimeExceptions}}
+        } catch (NullPointerException e) { // Noncompliant {{Avoid Runtime exceptions}}
         }
     }
 
-    public void test4(){
+    public void nominalRuntimeExceptionDependant_3(){
         try {
             int result = 1 / 0;
-        } catch (ArithmeticException e) { // Noncompliant {{Don't catch RuntimeExceptions}}
+        } catch (ArithmeticException e) { // Noncompliant {{Avoid Runtime exceptions}}
         }
     }
 
     //these exceptions are ok because they aren't runtime exceptions
 
-    public void testCompliant1() {
+    public void compliantNonRuntimeException() {
         try {
             File file = new File("nonexistent.txt");
             FileReader fr = new FileReader(file);
@@ -65,14 +73,14 @@ public class DontCatchRuntimeExceptions {
 
     // these exceptions are ok because they are IllegalArgumentExceptions, and can hardly be avoided
 
-    public void testCompliant2() {
+    public void compliantIllegalArgumentException() {
         try {
             // some code that may throw an exception
         } catch (IllegalArgumentException e) {
         }
     }
 
-    public void testCompliant3() {
+    public void compliantIllegalArgumentExceptionDependant() {
         try {
             Integer.parseInt("abc");
         } catch (NumberFormatException e) {

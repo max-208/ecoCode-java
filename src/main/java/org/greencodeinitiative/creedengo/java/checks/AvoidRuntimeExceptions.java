@@ -27,9 +27,9 @@ import org.sonar.plugins.java.api.tree.Tree;
 import org.sonar.plugins.java.api.tree.Tree.Kind;
 
 @Rule(key = "GCI1166")
-public class DontCatchRuntimeExceptions extends IssuableSubscriptionVisitor {
+public class AvoidRuntimeExceptions extends IssuableSubscriptionVisitor {
 
-    protected static final String MESSAGERULE = "Don't catch RuntimeExceptions";
+    protected static final String MESSAGERULE = "Avoid Runtime exceptions";
     protected static final String RUNTIME_EXCEPTION = "java.lang.RuntimeException";
     protected static final String ILLEGAL_ARGUMENT_EXCEPTION = "java.lang.IllegalArgumentException";
 
