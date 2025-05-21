@@ -22,10 +22,10 @@ public class MakeNonReassignedVariablesConstants {
     // passing through a method
     private String varDefinedInClassReassignedInMethod = "0"; // Compliant
     private String varDefinedInClassInFinalMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
-    private String varDefinedInClassNotReassignedInMethod = "0"; // Compliant (erreur au niveau de la définition du constructeur)
+    private String varDefinedInClassNotReassignedInMethod = "0"; // Compliant (the String was passed as a non-final parameter to the method)
     private String varDefinedInClassReassignedInConstructor = "0"; // Compliant
     private String varDefinedInClassInFinalConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
-    private String varDefinedInClassNotReassignedInConstructor = "0"; // Compliant (erreur au niveau de la définition du constructeur)
+    private String varDefinedInClassNotReassignedInConstructor = "0"; // Compliant (the String was passed as a non-final parameter to the constructor)
 
     public MakeNonReassignedVariablesConstants() {
         varDefinedInConstructorReassigned = "3";
@@ -104,7 +104,7 @@ public class MakeNonReassignedVariablesConstants {
     void reassignedInMethod() {
         String varDefinedInMethodReassignedInMethod = "0"; // Compliant
         String varDefinedInMethodInFinalMethod = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
-        String varDefinedInMethodNotReassignedInMethod = "0"; // Compliant (erreur au niveau de la définition de la méthode)
+        String varDefinedInMethodNotReassignedInMethod = "0"; // Compliant (the String was passed as a non-final parameter to the method)
 
         this.parameterReassigned(varDefinedInMethodReassignedInMethod);
         this.parameterReassigned(this.varDefinedInClassReassignedInMethod);
@@ -117,8 +117,7 @@ public class MakeNonReassignedVariablesConstants {
     void reassignedInConstructor(){
         String varDefinedInMethodReassignedInConstructor = "0"; // Compliant
         String varDefinedInMethodInFinalConstructor = "0"; // Noncompliant {{The variable is never reassigned and can be 'final'}}
-        String varDefinedInMethodNotReassignedInConstructor = "0"; // Compliant (erreur au niveau de la définition de la méthode)
-
+        String varDefinedInMethodNotReassignedInConstructor = "0"; // Compliant (the String was passed as a non-final parameter to the constructor)
         Object o = null;
         o = new reassignedInConstructor(varDefinedInMethodReassignedInConstructor);
         o = new reassignedInConstructor(this.varDefinedInClassReassignedInConstructor);
