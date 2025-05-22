@@ -549,9 +549,9 @@ class GCIRulesIT extends GCIRulesBase {
     }
 
     @Test
-    void testGCI1166_1() {
+    void testGCI96_1() {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
-        String ruleId = "creedengo-java:GCI1166";
+        String ruleId = "creedengo-java:GCI96";
         String ruleMsg = "Avoid Runtime exceptions : RuntimeException";
         int[] startLines = new int[]{36};
         int[] endLines = new int[]{37};
@@ -560,9 +560,9 @@ class GCIRulesIT extends GCIRulesBase {
     }
 
     @Test
-    void testGCI1166_2() {
+    void testGCI96_2() {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
-        String ruleId = "creedengo-java:GCI1166";
+        String ruleId = "creedengo-java:GCI96";
         String ruleMsg = "Avoid Runtime exceptions : IndexOutOfBoundsException";
         int[] startLines = new int[]{44};
         int[] endLines = new int[]{45};
@@ -571,9 +571,9 @@ class GCIRulesIT extends GCIRulesBase {
     }
 
     @Test
-    void testGCI1166_3() {
+    void testGCI96_3() {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
-        String ruleId = "creedengo-java:GCI1166";
+        String ruleId = "creedengo-java:GCI96";
         String ruleMsg = "Avoid Runtime exceptions : NullPointerException";
         int[] startLines = new int[]{52};
         int[] endLines = new int[]{53};
@@ -582,9 +582,9 @@ class GCIRulesIT extends GCIRulesBase {
     }
 
     @Test
-    void testGCI1166_4() {
+    void testGCI96_4() {
         String filePath = "src/main/java/org/greencodeinitiative/creedengo/java/checks/AvoidRuntimeExceptions.java";
-        String ruleId = "creedengo-java:GCI1166";
+        String ruleId = "creedengo-java:GCI96";
         String ruleMsg = "Avoid Runtime exceptions : ArithmeticException";
         int[] startLines = new int[]{59};
         int[] endLines = new int[]{60};
